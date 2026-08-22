@@ -36,7 +36,10 @@ function App() {
 
       setContacts(updatedContacts);
       saveToLocalStorage(updatedContacts);
-      showToastNotification("success", `${selectedContacts.length} Contacts deleted successfully`);
+      showToastNotification(
+        "success",
+        `${selectedContacts.length} Contacts deleted successfully`,
+      );
       clearSearch();
     }
   };
@@ -62,9 +65,11 @@ function App() {
   };
 
   const deleteContact = (id) => {
-    const updatedContacts = contacts.filter((contact) => contact.id !== id);
-    setContacts(updatedContacts);
+    dispatch({ type: "DELETE_CONTACT", payload: id });
+
+    const updatedContacts = contactsReducerState.filter((contact) => contact.id !== id);
     saveToLocalStorage(updatedContacts);
+
     clearSearch();
     showToastNotification("success", "Contact deleted successfully");
   };
