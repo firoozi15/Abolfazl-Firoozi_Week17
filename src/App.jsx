@@ -6,10 +6,14 @@ import ConfirmModal from "./components/ConfirmModal";
 import categories from "./constants/categories.js";
 import Notification from "./components/Notification.jsx";
 
+import { useReducer } from "react";
+import { reducer, initialState } from "./reducers/contactsReducer.js";
+
 let NotificationMessage;
 let NotificationType;
 
 function App() {
+  const [contactsReducerState, dispatch] = useReducer(reducer, initialState);
   const [showNotification, setShowNotification] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
@@ -65,11 +69,13 @@ function App() {
     showToastNotification("success", "Contact deleted successfully");
   };
   const addContact = (contact) => {
-    let contactId =
-      contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1;
+    const contactId =
+      contactsReducerState.length === 0
+        ? 1
+        : contactsReducerState[contactsReducerState.length - 1].id + 1;
     const newContact = { ...contact, id: contactId };
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
+    dispatch({ type: "ADD_CONTACT", payload: newContact });
+    const newContacts = [...contactsReducerState, newContact];
     saveToLocalStorage(newContacts);
     showToastNotification("success", "Contact added successfully");
     clearSearch();
@@ -135,7 +141,7 @@ function App() {
         clearSearch={clearSearch}
       />
       <Contacts
-        contacts={displayedContacts}
+        contacts={contactsReducerState}
         addContact={addContact}
         deleteContact={deleteContact}
         updateContact={updateContact}
