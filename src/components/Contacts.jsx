@@ -8,14 +8,20 @@ function Contacts({
   categories,
   selectedCategory,
   setFilterCategory,
-  addContactListForDelete,
-  selectedContacts,
-  deleteContactsSelected,
   showToastNotification,
 }) {
+  const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const selectContactForEdit = (contact) => setSelectedContact(contact);
   const clearSelectedContact = () => setSelectedContact(null);
+
+  const addContactListForDelete = (checked, id) => {
+    if (checked) setSelectedContacts((prev) => [...prev, id]);
+    else
+      setSelectedContacts(
+        selectedContacts.filter((contactId) => contactId !== id),
+      );
+  };
   return (
     <main className={styles.main}>
       <div className={styles.mainHeader}>
@@ -25,8 +31,8 @@ function Contacts({
           setFilterCategory={setFilterCategory}
           selectedContact={selectedContact}
           clearSelectedContact={clearSelectedContact}
-          deleteContactsSelected={deleteContactsSelected}
           selectedContacts={selectedContacts}
+          setSelectedContacts={setSelectedContacts}
           showToastNotification={showToastNotification}
         />
       </div>

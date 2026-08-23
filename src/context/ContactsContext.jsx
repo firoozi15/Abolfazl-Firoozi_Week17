@@ -68,6 +68,24 @@ export function ContactsProvider({ children }) {
     clearSearch();
   };
 
+  const deleteContactsSelected = (selectedContacts) => {
+    dispatch({
+      type: "DELETE_SELECTED_CONTACTS",
+      payload: selectedContacts,
+    });
+
+    const updatedContacts = contactsReducerState.filter(
+      (contact) => !selectedContacts.includes(contact.id),
+    );
+    saveToLocalStorage(updatedContacts);
+
+    showToastNotification(
+      "success",
+      `${selectedContacts.length} Contacts deleted successfully`,
+    );
+    clearSearch();
+  };
+
   return (
     <ContactsContext.Provider
       value={{
@@ -83,6 +101,7 @@ export function ContactsProvider({ children }) {
         setShowNotification,
         deleteContact,
         updateContact,
+        deleteContactsSelected,
       }}
     >
       {children}
