@@ -18,9 +18,6 @@ function App() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(localStorage.getItem("contacts")) || [];
-  });
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const saveToLocalStorage = (contacts) => {
@@ -64,7 +61,7 @@ function App() {
   };
 
   const filterByCategory = (name) => {
-    return contacts.filter((contact) => {
+    return contactsReducerState.filter((contact) => {
       if (name === "All") return true;
 
       return contact.category === name;
@@ -115,7 +112,7 @@ function App() {
   const filteredContacts = (searchValue) => {
     const value = searchValue.toLowerCase();
 
-    return contacts.filter((contact) => {
+    return contactsReducerState.filter((contact) => {
       return (
         contact.firstName.toLowerCase().includes(value) ||
         contact.lastName.toLowerCase().includes(value) ||
@@ -155,7 +152,7 @@ function App() {
         clearSearch={clearSearch}
       />
       <Contacts
-        contacts={contactsReducerState}
+        contacts={displayedContacts}
         addContact={addContact}
         deleteContact={deleteContact}
         updateContact={updateContact}
