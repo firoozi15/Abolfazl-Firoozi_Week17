@@ -3,7 +3,6 @@ import ContactCard from "./ContactCard";
 
 function ContactList({
   contacts,
-  deleteContact,
   selectContactForEdit,
   addContactListForDelete,
   selectedContacts
@@ -22,7 +21,6 @@ function ContactList({
           <ContactCard
             key={contact.id}
             contact={contact}
-            deleteContact={deleteContact}
             selectContactForEdit={selectContactForEdit}
             addContactListForDelete={addContactListForDelete}
             selectedContacts={selectedContacts}

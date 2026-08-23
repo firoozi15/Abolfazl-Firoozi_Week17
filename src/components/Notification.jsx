@@ -4,17 +4,30 @@ import errorIcon from "../assets/icons/error.svg";
 import infoIcon from "../assets/icons/info.svg";
 import warningIcon from "../assets/icons/warning.svg";
 
-function Notification({ title, type, closeNotification }) {
+import { useContext } from "react";
+import { ContactsContext } from "../context/ContactsContext.jsx";
+
+function Notification() {
+  const {
+    showNotification,
+    notificationMessage: title,
+    notificationType: type,
+    setShowNotification,
+  } = useContext(ContactsContext);
+
   const icons = {
     success: successIcon,
     error: errorIcon,
     info: infoIcon,
     warning: warningIcon,
   };
+
+  if (!showNotification) return null;
+
   return (
     <div
       className={`${styles.notification} ${styles[type]}`}
-      onAnimationEnd={() => closeNotification()}
+      onAnimationEnd={() => setShowNotification(false)}
     >
       <div className={styles.icon}>
         <img src={icons[type]} alt="icon" />
