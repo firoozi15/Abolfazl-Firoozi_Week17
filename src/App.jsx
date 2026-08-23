@@ -93,16 +93,18 @@ function App() {
     clearSearch();
   };
   const updateContact = (updatedContact) => {
-    const newContacts = contacts.map((contact) => {
+
+    dispatch({ type: "UPDATE_CONTACT", payload: updatedContact });
+
+    const newContacts = contactsReducerState.map((contact) => {
       if (contact.id === updatedContact.id) {
         showToastNotification("success", "Contact updated successfully");
         return updatedContact;
       }
       return contact;
     });
-
-    setContacts(newContacts);
     saveToLocalStorage(newContacts);
+    
     clearSearch();
   };
 
