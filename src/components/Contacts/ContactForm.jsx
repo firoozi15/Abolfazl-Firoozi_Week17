@@ -9,10 +9,12 @@ import ConfirmModal from "../ConfirmModal";
 import CategoryButtons from "../CategoryButtons";
 import contactFields from "../../constants/contactFields";
 
+import { useContext } from "react";
+import { ContactsContext } from "../../context/ContactsContext.jsx";
+
 function ContactForm({
   categories,
   selectedCategory,
-  addContact,
   selectedContact,
   updateContact,
   clearSelectedContact,
@@ -21,6 +23,7 @@ function ContactForm({
   selectedContacts,
   showToastNotification,
 }) {
+  const { addContact } = useContext(ContactsContext);
   const [isClosing, setisClosing] = useState(false);
   const [showConfirm, setshowConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);

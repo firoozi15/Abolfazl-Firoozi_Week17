@@ -7,7 +7,6 @@ function Contacts({
   contacts,
   categories,
   selectedCategory,
-  addContact,
   deleteContact,
   updateContact,
   setFilterCategory,
@@ -26,7 +25,6 @@ function Contacts({
           categories={categories}
           selectedCategory={selectedCategory}
           setFilterCategory={setFilterCategory}
-          addContact={addContact}
           selectedContact={selectedContact}
           updateContact={updateContact}
           clearSelectedContact={clearSelectedContact}

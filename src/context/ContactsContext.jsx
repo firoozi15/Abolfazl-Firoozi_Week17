@@ -1,0 +1,62 @@
+import { createContext, useState } from "react";
+
+import { useReducer } from "react";
+import { reducer, initialState } from "../reducers/contactsReducer.js";
+
+export const ContactsContext = createContext();
+
+export function ContactsProvider({ children }) {
+  const [contactsReducerState, dispatch] = useReducer(reducer, initialState);
+
+  const [searchValue, setSearchValue] = useState("");
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("");
+
+  const saveToLocalStorage = (contacts) => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  };
+
+  const showToastNotification = (type, message) => {
+    setNotificationType(type);
+    setNotificationMessage(message);
+    setShowNotification(true);
+  };
+
+  const clearSearch = () => {
+    setSearchValue("");
+  };
+
+  const addContact = (contact) => {
+    const contactId =
+      contactsReducerState.length === 0
+        ? 1
+        : contactsReducerState[contactsReducerState.length - 1].id + 1;
+    const newContact = { ...contact, id: contactId };
+    dispatch({ type: "ADD_CONTACT", payload: newContact });
+    const newContacts = [...contactsReducerState, newContact];
+    saveToLocalStorage(newContacts);
+    showToastNotification("success", "Contact added successfully");
+    clearSearch();
+  };
+
+  return (
+    <ContactsContext.Provider
+      value={{
+        contactsReducerState,
+        addContact,
+        searchValue,
+        setSearchValue,
+        showNotification,
+        notificationMessage,
+        notificationType,
+        showToastNotification,
+        clearSearch,
+        setShowNotification,
+      }}
+    >
+      {children}
+    </ContactsContext.Provider>
+  );
+}

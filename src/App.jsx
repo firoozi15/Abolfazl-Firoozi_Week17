@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ContactsContext } from "./context/ContactsContext.jsx";
 
 import Contacts from "./components/Contacts";
 import Header from "./components/Header";
@@ -6,39 +7,39 @@ import ConfirmModal from "./components/ConfirmModal";
 import categories from "./constants/categories.js";
 import Notification from "./components/Notification.jsx";
 
-import { useReducer } from "react";
-import { reducer, initialState } from "./reducers/contactsReducer.js";
-
-let NotificationMessage;
-let NotificationType;
+// let NotificationMessage;
+// let NotificationType;
 
 function App() {
-  const [contactsReducerState, dispatch] = useReducer(reducer, initialState);
-  const [showNotification, setShowNotification] = useState(false);
+  const {
+    contactsReducerState,
+    searchValue,
+    setSearchValue,
+    showNotification,
+    notificationMessage,
+    notificationType,
+    showToastNotification,
+    clearSearch,
+    setShowNotification,
+  } = useContext(ContactsContext);
+
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const saveToLocalStorage = (contacts) => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  };
 
   const deleteContactsSelected = () => {
     if (showConfirm === false) setShowConfirm(true);
     else {
-
       dispatch({
         type: "DELETE_SELECTED_CONTACTS",
         payload: selectedContacts,
       });
 
-
       const updatedContacts = contactsReducerState.filter(
         (contact) => !selectedContacts.includes(contact.id),
       );
       saveToLocalStorage(updatedContacts);
-
 
       showToastNotification(
         "success",
@@ -71,26 +72,16 @@ function App() {
   const deleteContact = (id) => {
     dispatch({ type: "DELETE_CONTACT", payload: id });
 
-    const updatedContacts = contactsReducerState.filter((contact) => contact.id !== id);
+    const updatedContacts = contactsReducerState.filter(
+      (contact) => contact.id !== id,
+    );
     saveToLocalStorage(updatedContacts);
 
     clearSearch();
     showToastNotification("success", "Contact deleted successfully");
   };
-  const addContact = (contact) => {
-    const contactId =
-      contactsReducerState.length === 0
-        ? 1
-        : contactsReducerState[contactsReducerState.length - 1].id + 1;
-    const newContact = { ...contact, id: contactId };
-    dispatch({ type: "ADD_CONTACT", payload: newContact });
-    const newContacts = [...contactsReducerState, newContact];
-    saveToLocalStorage(newContacts);
-    showToastNotification("success", "Contact added successfully");
-    clearSearch();
-  };
+  
   const updateContact = (updatedContact) => {
-
     dispatch({ type: "UPDATE_CONTACT", payload: updatedContact });
 
     const newContacts = contactsReducerState.map((contact) => {
@@ -101,7 +92,7 @@ function App() {
       return contact;
     });
     saveToLocalStorage(newContacts);
-    
+
     clearSearch();
   };
 
@@ -122,12 +113,6 @@ function App() {
     });
   };
 
-  const clearSearch = () => {
-    setSearchValue("");
-    setFilterCategory("All");
-    setSelectedContacts([]);
-  };
-
   let displayedContacts;
 
   if (searchValue) {
@@ -135,12 +120,6 @@ function App() {
   } else {
     displayedContacts = filterByCategory(selectedCategory);
   }
-
-  const showToastNotification = (type, message) => {
-    NotificationType = type;
-    NotificationMessage = message;
-    setShowNotification(true);
-  };
 
   const closeToastNotification = () => setShowNotification(false);
 
@@ -153,7 +132,6 @@ function App() {
       />
       <Contacts
         contacts={displayedContacts}
-        addContact={addContact}
         deleteContact={deleteContact}
         updateContact={updateContact}
         categories={categories}
@@ -175,8 +153,8 @@ function App() {
       )}
       {showNotification && (
         <Notification
-          type={NotificationType}
-          title={NotificationMessage}
+          type={notificationType}
+          title={notificationMessage}
           closeNotification={closeToastNotification}
         />
       )}
