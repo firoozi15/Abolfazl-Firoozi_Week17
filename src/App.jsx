@@ -30,12 +30,19 @@ function App() {
   const deleteContactsSelected = () => {
     if (showConfirm === false) setShowConfirm(true);
     else {
-      const updatedContacts = contacts.filter(
+
+      dispatch({
+        type: "DELETE_SELECTED_CONTACTS",
+        payload: selectedContacts,
+      });
+
+
+      const updatedContacts = contactsReducerState.filter(
         (contact) => !selectedContacts.includes(contact.id),
       );
-
-      setContacts(updatedContacts);
       saveToLocalStorage(updatedContacts);
+
+
       showToastNotification(
         "success",
         `${selectedContacts.length} Contacts deleted successfully`,
