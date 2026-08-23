@@ -53,6 +53,21 @@ export function ContactsProvider({ children }) {
     clearSearch();
   };
 
+  const updateContact = (updatedContact) => {
+    dispatch({ type: "UPDATE_CONTACT", payload: updatedContact });
+
+    const newContacts = contactsReducerState.map((contact) => {
+      if (contact.id === updatedContact.id) {
+        showToastNotification("success", "Contact updated successfully");
+        return updatedContact;
+      }
+      return contact;
+    });
+    saveToLocalStorage(newContacts);
+
+    clearSearch();
+  };
+
   return (
     <ContactsContext.Provider
       value={{
@@ -67,6 +82,7 @@ export function ContactsProvider({ children }) {
         clearSearch,
         setShowNotification,
         deleteContact,
+        updateContact,
       }}
     >
       {children}

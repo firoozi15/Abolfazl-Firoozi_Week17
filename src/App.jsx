@@ -66,21 +66,6 @@ function App() {
     });
   };
   
-  const updateContact = (updatedContact) => {
-    dispatch({ type: "UPDATE_CONTACT", payload: updatedContact });
-
-    const newContacts = contactsReducerState.map((contact) => {
-      if (contact.id === updatedContact.id) {
-        showToastNotification("success", "Contact updated successfully");
-        return updatedContact;
-      }
-      return contact;
-    });
-    saveToLocalStorage(newContacts);
-
-    clearSearch();
-  };
-
   const searchContact = (searchValue) => {
     setSearchValue(searchValue);
   };
@@ -117,7 +102,6 @@ function App() {
       />
       <Contacts
         contacts={displayedContacts}
-        updateContact={updateContact}
         categories={categories}
         setFilterCategory={setFilterCategory}
         addContactListForDelete={addContactListForDelete}

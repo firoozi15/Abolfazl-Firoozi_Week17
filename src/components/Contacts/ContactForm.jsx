@@ -16,14 +16,13 @@ function ContactForm({
   categories,
   selectedCategory,
   selectedContact,
-  updateContact,
   clearSelectedContact,
   setFilterCategory,
   deleteContactsSelected,
   selectedContacts,
   showToastNotification,
 }) {
-  const { addContact } = useContext(ContactsContext);
+  const { addContact, updateContact } = useContext(ContactsContext);
   const [isClosing, setisClosing] = useState(false);
   const [showConfirm, setshowConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);
