@@ -7,7 +7,6 @@ function Contacts({
   contacts,
   categories,
   selectedCategory,
-  deleteContact,
   updateContact,
   setFilterCategory,
   addContactListForDelete,
@@ -35,7 +34,6 @@ function Contacts({
       </div>
       <ContactList
         contacts={contacts}
-        deleteContact={deleteContact}
         selectContactForEdit={selectContactForEdit}
         addContactListForDelete={addContactListForDelete}
         selectedContacts={selectedContacts}

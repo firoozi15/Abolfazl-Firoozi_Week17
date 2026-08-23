@@ -3,13 +3,16 @@ import { useState } from "react";
 import styles from "./ContactCard.module.css";
 import ConfirmModal from "../ConfirmModal";
 
+import { useContext } from "react";
+import { ContactsContext } from "../../context/ContactsContext.jsx";
+
 function ContactCard({
   contact,
-  deleteContact,
   selectContactForEdit,
   addContactListForDelete,
   selectedContacts,
 }) {
+  const { deleteContact } = useContext(ContactsContext);
   const [showConfirm, setShowConfirm] = useState(false);
   const closeModal = () => setShowConfirm(false);
   return (

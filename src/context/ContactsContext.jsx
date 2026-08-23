@@ -41,6 +41,18 @@ export function ContactsProvider({ children }) {
     clearSearch();
   };
 
+  const deleteContact = (id) => {
+    dispatch({ type: "DELETE_CONTACT", payload: id });
+
+    const updatedContacts = contactsReducerState.filter(
+      (contact) => contact.id !== id,
+    );
+    saveToLocalStorage(updatedContacts);
+
+    showToastNotification("success", "Contact deleted successfully");
+    clearSearch();
+  };
+
   return (
     <ContactsContext.Provider
       value={{
@@ -54,6 +66,7 @@ export function ContactsProvider({ children }) {
         showToastNotification,
         clearSearch,
         setShowNotification,
+        deleteContact,
       }}
     >
       {children}

@@ -7,9 +7,6 @@ import ConfirmModal from "./components/ConfirmModal";
 import categories from "./constants/categories.js";
 import Notification from "./components/Notification.jsx";
 
-// let NotificationMessage;
-// let NotificationType;
-
 function App() {
   const {
     contactsReducerState,
@@ -68,18 +65,6 @@ function App() {
       return contact.category === name;
     });
   };
-
-  const deleteContact = (id) => {
-    dispatch({ type: "DELETE_CONTACT", payload: id });
-
-    const updatedContacts = contactsReducerState.filter(
-      (contact) => contact.id !== id,
-    );
-    saveToLocalStorage(updatedContacts);
-
-    clearSearch();
-    showToastNotification("success", "Contact deleted successfully");
-  };
   
   const updateContact = (updatedContact) => {
     dispatch({ type: "UPDATE_CONTACT", payload: updatedContact });
@@ -132,7 +117,6 @@ function App() {
       />
       <Contacts
         contacts={displayedContacts}
-        deleteContact={deleteContact}
         updateContact={updateContact}
         categories={categories}
         setFilterCategory={setFilterCategory}
