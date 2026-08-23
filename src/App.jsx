@@ -7,17 +7,7 @@ import categories from "./constants/categories.js";
 import Notification from "./components/Notification.jsx";
 
 function App() {
-  const {
-    contactsReducerState,
-    searchValue,
-    setSearchValue,
-    showNotification,
-    notificationMessage,
-    notificationType,
-    showToastNotification,
-    clearSearch,
-    setShowNotification,
-  } = useContext(ContactsContext);
+  const { contactsReducerState, searchValue } = useContext(ContactsContext);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -31,10 +21,6 @@ function App() {
 
       return contact.category === name;
     });
-  };
-  
-  const searchContact = (searchValue) => {
-    setSearchValue(searchValue);
   };
 
   const filteredContacts = (searchValue) => {
@@ -58,29 +44,16 @@ function App() {
     displayedContacts = filterByCategory(selectedCategory);
   }
 
-  const closeToastNotification = () => setShowNotification(false);
-
   return (
     <>
-      <Header
-        searchContact={searchContact}
-        searchValue={searchValue}
-        clearSearch={clearSearch}
-      />
+      <Header />
       <Contacts
         contacts={displayedContacts}
         categories={categories}
         setFilterCategory={setFilterCategory}
         selectedCategory={selectedCategory}
-        showToastNotification={showToastNotification}
       />
-      {showNotification && (
-        <Notification
-          type={notificationType}
-          title={notificationMessage}
-          closeNotification={closeToastNotification}
-        />
-      )}
+      <Notification />
     </>
   );
 }

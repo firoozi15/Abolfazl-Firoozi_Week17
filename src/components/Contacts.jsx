@@ -8,7 +8,6 @@ function Contacts({
   categories,
   selectedCategory,
   setFilterCategory,
-  showToastNotification,
 }) {
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
@@ -33,7 +32,6 @@ function Contacts({
           clearSelectedContact={clearSelectedContact}
           selectedContacts={selectedContacts}
           setSelectedContacts={setSelectedContacts}
-          showToastNotification={showToastNotification}
         />
       </div>
       <ContactList

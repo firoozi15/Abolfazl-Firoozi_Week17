@@ -20,10 +20,13 @@ function ContactForm({
   setFilterCategory,
   selectedContacts,
   setSelectedContacts,
-  showToastNotification,
 }) {
-  const { addContact, updateContact, deleteContactsSelected } =
-    useContext(ContactsContext);
+  const {
+    addContact,
+    updateContact,
+    deleteContactsSelected,
+    showToastNotification,
+  } = useContext(ContactsContext);
   const [isClosing, setisClosing] = useState(false);
   const [showEditConfirm, setEditShowConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
