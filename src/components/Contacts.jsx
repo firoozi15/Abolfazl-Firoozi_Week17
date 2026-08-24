@@ -3,12 +3,7 @@ import styles from "./Contacts.module.css";
 import ContactList from "./Contacts/ContactList";
 import { useState } from "react";
 
-function Contacts({
-  contacts,
-  categories,
-  selectedCategory,
-  setFilterCategory,
-}) {
+function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const selectContactForEdit = (contact) => setSelectedContact(contact);
@@ -25,9 +20,6 @@ function Contacts({
     <main className={styles.main}>
       <div className={styles.mainHeader}>
         <ContactForm
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setFilterCategory={setFilterCategory}
           selectedContact={selectedContact}
           clearSelectedContact={clearSelectedContact}
           selectedContacts={selectedContacts}
@@ -35,7 +27,6 @@ function Contacts({
         />
       </div>
       <ContactList
-        contacts={contacts}
         selectContactForEdit={selectContactForEdit}
         addContactListForDelete={addContactListForDelete}
         selectedContacts={selectedContacts}

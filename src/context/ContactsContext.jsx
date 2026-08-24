@@ -14,6 +14,8 @@ export function ContactsProvider({ children }) {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationType, setNotificationType] = useState("");
 
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   const saveToLocalStorage = (contacts) => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   };
@@ -102,6 +104,8 @@ export function ContactsProvider({ children }) {
         deleteContact,
         updateContact,
         deleteContactsSelected,
+        selectedCategory,
+        setSelectedCategory
       }}
     >
       {children}

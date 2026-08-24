@@ -9,15 +9,14 @@ import ConfirmModal from "../ConfirmModal";
 import CategoryButtons from "../CategoryButtons";
 import contactFields from "../../constants/contactFields";
 
+import categories from "../../constants/categories.js";
+
 import { useContext } from "react";
 import { ContactsContext } from "../../context/ContactsContext.jsx";
 
 function ContactForm({
-  categories,
-  selectedCategory,
   selectedContact,
   clearSelectedContact,
-  setFilterCategory,
   selectedContacts,
   setSelectedContacts,
 }) {
@@ -83,11 +82,7 @@ function ContactForm({
   };
   return (
     <>
-      <CategoryButtons
-        categories={categories}
-        selectedCategory={selectedCategory}
-        setFilterCategory={setFilterCategory}
-      />
+      <CategoryButtons />
       <div className={styles.buttons}>
         <button
           onClick={() => setShowDeleteConfirm(true)}
