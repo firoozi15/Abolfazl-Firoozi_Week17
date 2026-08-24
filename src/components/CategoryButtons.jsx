@@ -1,12 +1,18 @@
 import styles from "./CategoryButtons.module.css";
 
-function CategoryButtons({ categories, setFilterCategory, selectedCategory }) {
+import categories from "../constants/categories.js";
+
+import { useContext } from "react";
+import { ContactsContext } from "../context/ContactsContext.jsx";
+
+function CategoryButtons() {
+  const { setSelectedCategory, selectedCategory } = useContext(ContactsContext);
   return (
     <>
       <div className={styles.filterButtons}>
         <button
           onClick={() => {
-            setFilterCategory("All");
+            setSelectedCategory("All");
           }}
           className={`${styles.button} ${selectedCategory === "All" && styles.activeFilter}`}
         >
@@ -19,7 +25,7 @@ function CategoryButtons({ categories, setFilterCategory, selectedCategory }) {
               className={`${styles.button} ${selectedCategory === category.name && styles.activeFilter}`}
               value={category.name}
               onClick={() => {
-                setFilterCategory(category.name);
+                setSelectedCategory(category.name);
               }}
             >
               {category.name}

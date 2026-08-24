@@ -26,7 +26,6 @@ function ConfirmModal({ confirmFunction, message, closeModal }) {
               onClick={() => {
                 confirmFunction();
                 setisClosing(true);
-                closeModal();
               }}
               className={styles.confirmButton}
             >

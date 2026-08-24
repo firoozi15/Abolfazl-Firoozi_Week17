@@ -9,20 +9,26 @@ import ConfirmModal from "../ConfirmModal";
 import CategoryButtons from "../CategoryButtons";
 import contactFields from "../../constants/contactFields";
 
+import categories from "../../constants/categories.js";
+
+import { useContext } from "react";
+import { ContactsContext } from "../../context/ContactsContext.jsx";
+
 function ContactForm({
-  categories,
-  selectedCategory,
-  addContact,
   selectedContact,
-  updateContact,
   clearSelectedContact,
-  setFilterCategory,
-  deleteContactsSelected,
   selectedContacts,
-  showToastNotification,
+  setSelectedContacts,
 }) {
+  const {
+    addContact,
+    updateContact,
+    deleteContactsSelected,
+    showToastNotification,
+  } = useContext(ContactsContext);
   const [isClosing, setisClosing] = useState(false);
-  const [showConfirm, setshowConfirm] = useState(false);
+  const [showEditConfirm, setEditShowConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [contact, setContact] = useState({
     firstName: "",
@@ -31,7 +37,10 @@ function ContactForm({
     phone: "",
     category: "",
   });
-  const closeModal = () => setshowConfirm(false);
+  const closeModal = () => {
+    setShowDeleteConfirm(false);
+    setEditShowConfirm(false);
+  };
 
   useEffect(() => {
     if (selectedContact) {
@@ -73,14 +82,10 @@ function ContactForm({
   };
   return (
     <>
-      <CategoryButtons
-        categories={categories}
-        selectedCategory={selectedCategory}
-        setFilterCategory={setFilterCategory}
-      />
+      <CategoryButtons />
       <div className={styles.buttons}>
         <button
-          onClick={() => deleteContactsSelected(selectedContacts)}
+          onClick={() => setShowDeleteConfirm(true)}
           className={`${styles.button} ${styles.deleteUser} ${selectedContacts.length !== 0 && styles.showDeleteButton}`}
         >
           <img className={styles.trashIcon} src={trashIcon} alt="deleteAll" />
@@ -104,7 +109,7 @@ function ContactForm({
             <div className={styles.formHeader}>
               <h3>{selectedContact ? "Edit User" : "Add User"}</h3>
               <img
-                onClick={() => setshowConfirm(true)}
+                onClick={() => setEditShowConfirm(true)}
                 src={closeIcon}
                 alt="closeIcon"
                 className={styles.closeIcon}
@@ -143,7 +148,7 @@ function ContactForm({
             </div>
             <div className={styles.formButtons}>
               <button
-                onClick={() => setshowConfirm(true)}
+                onClick={() => setEditShowConfirm(true)}
                 className={styles.cancelButton}
               >
                 Cancel
@@ -158,7 +163,7 @@ function ContactForm({
           </div>
         </div>
       )}
-      {showConfirm && (
+      {showEditConfirm && (
         <ConfirmModal
           closeModal={closeModal}
           message={"Do you want to cancel editing?"}
@@ -172,6 +177,18 @@ function ContactForm({
               phone: "",
               category: "",
             });
+          }}
+        />
+      )}
+      {showDeleteConfirm && (
+        <ConfirmModal
+          confirmFunction={() => {
+            deleteContactsSelected(selectedContacts);
+            setSelectedContacts([]);
+          }}
+          message={`do you want to delete ${selectedContacts.length} contact ?`}
+          closeModal={() => {
+            setShowDeleteConfirm(false);
           }}
         />
       )}
