@@ -9,11 +9,11 @@ function ContactList({
   addContactListForDelete,
   selectedContacts,
 }) {
-  const { contactsReducerState, searchValue, selectedCategory } =
+  const { contacts, searchValue, selectedCategory } =
     useContext(ContactsContext);
 
   const filterByCategory = (name) => {
-    return contactsReducerState.filter((contact) => {
+    return contacts.filter((contact) => {
       if (name === "All") return true;
 
       return contact.category === name;
@@ -23,7 +23,7 @@ function ContactList({
   const filteredContacts = (searchValue) => {
     const value = searchValue.toLowerCase();
 
-    return contactsReducerState.filter((contact) => {
+    return contacts.filter((contact) => {
       return (
         contact.firstName.toLowerCase().includes(value) ||
         contact.lastName.toLowerCase().includes(value) ||
